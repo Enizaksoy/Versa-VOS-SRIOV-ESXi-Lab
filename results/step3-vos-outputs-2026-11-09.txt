@@ -1,0 +1,683 @@
+
+##### VOS shell: lspci | grep -i 'virtual function'
+03:00.0 Ethernet controller: Intel Corporation X540 Ethernet Controller Virtual Function (rev 01)
+0b:00.0 Ethernet controller: Intel Corporation X540 Ethernet Controller Virtual Function (rev 01)
+
+
+##### VOS shell: sudo /opt/versa/scripts/versa_pci_unbind.py --status
+
+network devices using DPDK-compatible driver
+============================================
+0000:03:00.0 'X540 Ethernet Controller Virtual Function 1515' drv=igb_uio unused=ixgbevf,vfio-pci
+0000:0b:00.0 'X540 Ethernet Controller Virtual Function 1515' drv=igb_uio unused=ixgbevf,vfio-pci
+0000:1b:00.0 'VMXNET3 Ethernet Controller 07b0' drv=igb_uio unused=vmxnet3,vfio-pci
+
+network devices using kernel driver
+===================================
+0000:13:00.0 'VMXNET3 Ethernet Controller 07b0' if=eth0 drv=vmxnet3 unused=igb_uio,vfio-pci *Active*
+
+Other network devices
+=====================
+<none>
+
+##### VOS shell: sudo grep -hE 'Probe PCI|Unsupported device' /var/log/versa/versa-service.log | tail -12
+EAL: Probe PCI driver: net_ixgbe_vf (8086:1515) device: 0000:03:00.0 (socket 0)
+EAL: Probe PCI driver: net_ixgbe_vf (8086:1515) device: 0000:0b:00.0 (socket 0)
+EAL: Probe PCI driver: net_vmxnet3 (15ad:7b0) device: 0000:1b:00.0 (socket 0)
+EAL: Probe PCI driver: net_ixgbe_vf (8086:1515) device: 0000:03:00.0 (socket 0)
+EAL: Probe PCI driver: net_ixgbe_vf (8086:1515) device: 0000:0b:00.0 (socket 0)
+EAL: Probe PCI driver: net_vmxnet3 (15ad:7b0) device: 0000:1b:00.0 (socket 0)
+EAL: Probe PCI driver: net_ixgbe_vf (8086:1515) device: 0000:03:00.0 (socket 0)
+EAL: Probe PCI driver: net_ixgbe_vf (8086:1515) device: 0000:0b:00.0 (socket 0)
+EAL: Probe PCI driver: net_vmxnet3 (15ad:7b0) device: 0000:1b:00.0 (socket 0)
+EAL: Probe PCI driver: net_ixgbe_vf (8086:1515) device: 0000:03:00.0 (socket 0)
+EAL: Probe PCI driver: net_ixgbe_vf (8086:1515) device: 0000:0b:00.0 (socket 0)
+EAL: Probe PCI driver: net_vmxnet3 (15ad:7b0) device: 0000:1b:00.0 (socket 0)
+
+##### VOS CLI: show interfaces brief | tab
+show interfaces brief | tab | nomore
+NAME         MAC                OPER   ADMIN  TENANT  VRF                   IP                           
+---------------------------------------------------------------------------------------------------------
+eth-0/0      00:50:56:aa:bb:00  up     up     0       global                192.0.2.128/24               
+                                                                            fe80::250:56ff:feaa:bb00/64  
+ptvi514      n/a                pdown  up     2       ACME-Control-VR       10.53.0.2/32                 
+tvi-0/4      n/a                up     up     -       -                                                  
+tvi-0/4.0    n/a                up     up     2       ACME-Control-VR       10.53.0.56/32                
+tvi-0/5      n/a                up     up     -       -                                                  
+tvi-0/5.0    n/a                up     up     2       ACME-Control-VR       10.53.0.57/32                
+tvi-0/602    n/a                up     up     -       -                                                  
+tvi-0/602.0  n/a                up     up     2       INET-1-Transport-VR   169.254.0.2/31               
+tvi-0/603    n/a                up     up     -       -                                                  
+tvi-0/603.0  n/a                up     up     2       ACME-LAN-VR           169.254.0.3/31               
+tvi-0/604    n/a                up     up     -       -                                                  
+tvi-0/604.0  n/a                up     up     2       INET-2-Transport-VR   169.254.0.4/31               
+tvi-0/605    n/a                up     up     -       -                                                  
+tvi-0/605.0  n/a                up     up     2       ACME-LAN-VR           169.254.0.5/31               
+vni-0/0      00:50:56:aa:bb:01  up     up     -       -                                                  
+vni-0/0.0    00:50:56:aa:bb:01  up     up     2       INET-1-Transport-VR   192.168.100.40/24            
+vni-0/1      00:50:56:aa:bb:02  up     up     -       -                                                  
+vni-0/1.0    00:50:56:aa:bb:02  up     up     2       INET-2-Transport-VR   198.51.100.97/24             
+vni-0/2      00:50:56:aa:bb:03  up     up     -       -                                                  
+vni-0/2.0    00:50:56:aa:bb:03  up     up     2       ACME-LAN-VR           10.40.40.40/24               
+
+[ok][2026-11-09 12:25:36]
+admin@BRANCH-1-cli> 
+
+##### VOS CLI: show interfaces detail vni-0/0
+show interfaces detail vni-0/0 | nomore
+
+Interface: vni-0/0
+  Tenant                : 2
+  Vlan-Id               : n/a
+  Inner-vlan-id         : n/a
+  Administrative status : up
+  Operational status    : up
+  Protocols Down        : n/a
+  Interface index       : 1050
+  Interface Role        : external
+  MAC address           : 00:50:56:aa:bb:01
+  IP address            : n/a
+  Obtained from DHCP    : False
+  DHCP Server IP        : n/a
+  DHCP Lease Time       : n/a
+  DHCP Lease Expiry     : n/a
+  Name Server 1 Address : n/a
+  Name Server 2 Address : n/a
+  Routing instance      : INET-1-Transport-VR (12)
+  Host interface        : eth1
+  Description           : SRIOV
+  MTU                   : 1500
+  Aggregate BW          : n/a
+  Duplex / Speed        : full-duplex / 10Gbps
+     RX packets:18  errors:0
+     RX bytes:1330
+     TX packets:4  errors:0
+     TX bytes:1131
+  Link Flowcontrol      : disabled
+  Link FEC              : n/a
+  Bridge                : false
+  Bridge Interface Mode : n/a
+  Interface Trunk VLANs : n/a
+  Native VLAN ID        : n/a
+  SGT                   : false
+  SGT Group Name        : n/a
+  SGT Trusted           : n/a
+  SGT Impose On Tx      : n/a
+  SGT Value             : n/a
+  Anycast IPv4          : n/a
+  Anycast IPv4 MAC      : n/a
+  Anycast IPv6          : n/a
+  Anycast IPv6 MAC      : n/a
+ 
+[ok][2026-11-09 12:25:40]
+admin@BRANCH-1-cli> 
+
+##### ESXi idle: esxcli network sriovnic vf list -n vmnic4
+VF ID  Active  PCI Address     Owner World ID
+-----  ------  --------------  --------------
+    0    true  00000:059:16.1  2104751
+    1    true  00000:059:16.3  2104915
+    2    true  00000:059:16.5  2104724
+    3    true  00000:059:16.7  2104724
+    4   false  00000:059:17.1   -
+    5   false  00000:059:17.3   -
+    6   false  00000:059:17.5   -
+    7   false  00000:059:17.7   -
+    8   false  00000:059:18.1   -
+    9   false  00000:059:18.3   -
+   10   false  00000:059:18.5   -
+   11   false  00000:059:18.7   -
+   12   false  00000:059:19.1   -
+   13   false  00000:059:19.3   -
+   14   false  00000:059:19.5   -
+   15   false  00000:059:19.7   -
+   16   false  00000:059:20.1   -
+   17   false  00000:059:20.3   -
+   18   false  00000:059:20.5   -
+   19   false  00000:059:20.7   -
+   20   false  00000:059:21.1   -
+   21   false  00000:059:21.3   -
+   22   false  00000:059:21.5   -
+   23   false  00000:059:21.7   -
+   24   false  00000:059:22.1   -
+   25   false  00000:059:22.3   -
+   26   false  00000:059:22.5   -
+   27   false  00000:059:22.7   -
+   28   false  00000:059:23.1   -
+   29   false  00000:059:23.3   -
+   30   false  00000:059:23.5   -
+   31   false  00000:059:23.7   -
+   32   false  00000:059:24.1   -
+   33   false  00000:059:24.3   -
+   34   false  00000:059:24.5   -
+   35   false  00000:059:24.7   -
+   36   false  00000:059:25.1   -
+   37   false  00000:059:25.3   -
+   38   false  00000:059:25.5   -
+   39   false  00000:059:25.7   -
+   40   false  00000:059:26.1   -
+   41   false  00000:059:26.3   -
+   42   false  00000:059:26.5   -
+   43   false  00000:059:26.7   -
+   44   false  00000:059:27.1   -
+   45   false  00000:059:27.3   -
+   46   false  00000:059:27.5   -
+   47   false  00000:059:27.7   -
+   48   false  00000:059:28.1   -
+   49   false  00000:059:28.3   -
+   50   false  00000:059:28.5   -
+   51   false  00000:059:28.7   -
+   52   false  00000:059:29.1   -
+   53   false  00000:059:29.3   -
+   54   false  00000:059:29.5   -
+   55   false  00000:059:29.7   -
+   56   false  00000:059:30.1   -
+   57   false  00000:059:30.3   -
+   58   false  00000:059:30.5   -
+   59   false  00000:059:30.7   -
+   60   false  00000:059:31.1   -
+
+
+##### ESXi before: vf stats -v 0
+   NICName: vmnic4
+   Rx Broadcast Bytes: 0
+   Rx Broadcast Pkts: 0
+   Rx Errordrops: 0
+   Rx LROBytes: 0
+   Rx LROPkts: 0
+   Rx Multicast Bytes: 0
+   Rx Multicast Pkts: 0
+   Rx Outof Bufferdrops: 0
+   Rx Unicast Bytes: 0
+   Rx Unicast Pkt: 0
+   Tx Broadcast Bytes: 0
+   Tx Broadcast Pkts: 0
+   Tx Discards: 0
+   Tx Errors: 0
+   Tx Multicast Bytes: 0
+   Tx Multicast Pkts: 0
+   Tx TSOBytes: 0
+   Tx TSOPkts: 0
+   Tx Unicast Bytes: 0
+   Tx Unicast Pkt: 0
+   VFID: 0
+
+
+##### ESXi before: vf stats -v 1
+   NICName: vmnic4
+   Rx Broadcast Bytes: 0
+   Rx Broadcast Pkts: 0
+   Rx Errordrops: 0
+   Rx LROBytes: 0
+   Rx LROPkts: 0
+   Rx Multicast Bytes: 0
+   Rx Multicast Pkts: 0
+   Rx Outof Bufferdrops: 0
+   Rx Unicast Bytes: 0
+   Rx Unicast Pkt: 0
+   Tx Broadcast Bytes: 0
+   Tx Broadcast Pkts: 0
+   Tx Discards: 0
+   Tx Errors: 0
+   Tx Multicast Bytes: 0
+   Tx Multicast Pkts: 0
+   Tx TSOBytes: 0
+   Tx TSOPkts: 0
+   Tx Unicast Bytes: 0
+   Tx Unicast Pkt: 0
+   VFID: 1
+
+
+##### ESXi before: vf stats -v 2
+   NICName: vmnic4
+   Rx Broadcast Bytes: 0
+   Rx Broadcast Pkts: 0
+   Rx Errordrops: 0
+   Rx LROBytes: 0
+   Rx LROPkts: 0
+   Rx Multicast Bytes: 0
+   Rx Multicast Pkts: 44
+   Rx Outof Bufferdrops: 0
+   Rx Unicast Bytes: 12795
+   Rx Unicast Pkt: 54
+   Tx Broadcast Bytes: 0
+   Tx Broadcast Pkts: 0
+   Tx Discards: 0
+   Tx Errors: 0
+   Tx Multicast Bytes: 0
+   Tx Multicast Pkts: 0
+   Tx TSOBytes: 0
+   Tx TSOPkts: 0
+   Tx Unicast Bytes: 1698
+   Tx Unicast Pkt: 12
+   VFID: 2
+
+
+##### ESXi before: vf stats -v 3
+   NICName: vmnic4
+   Rx Broadcast Bytes: 0
+   Rx Broadcast Pkts: 0
+   Rx Errordrops: 0
+   Rx LROBytes: 0
+   Rx LROPkts: 0
+   Rx Multicast Bytes: 0
+   Rx Multicast Pkts: 45
+   Rx Outof Bufferdrops: 0
+   Rx Unicast Bytes: 13106
+   Rx Unicast Pkt: 56
+   Tx Broadcast Bytes: 0
+   Tx Broadcast Pkts: 0
+   Tx Discards: 0
+   Tx Errors: 0
+   Tx Multicast Bytes: 0
+   Tx Multicast Pkts: 0
+   Tx TSOBytes: 0
+   Tx TSOPkts: 0
+   Tx Unicast Bytes: 3023
+   Tx Unicast Pkt: 17
+   VFID: 3
+
+
+##### VOS CLI during TCP test: show interfaces port statistics brief | tab
+show interfaces port statistics brief | tab | nomore
+               IF                                                                                                                        
+         HOST  OPER    RX                            RX                  TX                            TX                  RX     TX     
+NAME     INF   STATUS  PACKETS  RX PPS  RX BYTES     ERRORS  RX BPS      PACKETS  TX PPS  TX BYTES     ERRORS  TX BPS      USAGE  USAGE  
+-----------------------------------------------------------------------------------------------------------------------------------------
+vni-0/0  eth1  up      224023   22614   14821814     0       11940544    7750847  810842  11734699634  0       9820922336  0.11   98.2   
+vni-0/1  eth3  up      122      1       11887        0       640         13       0       2726         0       0           0.0    0.0    
+vni-0/2  eth4  up      7754516  811251  11740176886  0       9825872112  223991   22615   14803500     0       11940720    98.25  0.11   
+
+[ok][2026-11-09 12:25:57]
+admin@BRANCH-1-cli> 
+
+##### vsmd during test: show vsm load
+show vsm load
+
+##### vsmd during test: show vsm statistics port mac dpdk-raw
+show vsm statistics port mac dpdk-raw
+
+##### vsmd during test: show vsm statistics dropped all
+show vsm statistics dropped all
+
+##### client VM: iperf3 -c 192.168.100.10 -P 8 -t 20
+[ 19]   0.00-20.00  sec  2.63 GBytes  1.13 Gbits/sec  501             sender
+[ 19]   0.00-20.01  sec  2.62 GBytes  1.13 Gbits/sec                  receiver
+[SUM]   0.00-20.00  sec  21.4 GBytes  9.18 Gbits/sec  2003             sender
+[SUM]   0.00-20.01  sec  21.4 GBytes  9.18 Gbits/sec                  receiver
+
+iperf Done.
+
+
+##### ESXi after: vf stats -v 0
+   NICName: vmnic4
+   Rx Broadcast Bytes: 0
+   Rx Broadcast Pkts: 0
+   Rx Errordrops: 0
+   Rx LROBytes: 0
+   Rx LROPkts: 0
+   Rx Multicast Bytes: 0
+   Rx Multicast Pkts: 0
+   Rx Outof Bufferdrops: 0
+   Rx Unicast Bytes: 0
+   Rx Unicast Pkt: 0
+   Tx Broadcast Bytes: 0
+   Tx Broadcast Pkts: 0
+   Tx Discards: 0
+   Tx Errors: 0
+   Tx Multicast Bytes: 0
+   Tx Multicast Pkts: 0
+   Tx TSOBytes: 0
+   Tx TSOPkts: 0
+   Tx Unicast Bytes: 0
+   Tx Unicast Pkt: 0
+   VFID: 0
+
+
+##### ESXi after: vf stats -v 1
+   NICName: vmnic4
+   Rx Broadcast Bytes: 0
+   Rx Broadcast Pkts: 0
+   Rx Errordrops: 0
+   Rx LROBytes: 0
+   Rx LROPkts: 0
+   Rx Multicast Bytes: 0
+   Rx Multicast Pkts: 0
+   Rx Outof Bufferdrops: 0
+   Rx Unicast Bytes: 0
+   Rx Unicast Pkt: 0
+   Tx Broadcast Bytes: 0
+   Tx Broadcast Pkts: 0
+   Tx Discards: 0
+   Tx Errors: 0
+   Tx Multicast Bytes: 0
+   Tx Multicast Pkts: 0
+   Tx TSOBytes: 0
+   Tx TSOPkts: 0
+   Tx Unicast Bytes: 0
+   Tx Unicast Pkt: 0
+   VFID: 1
+
+
+##### ESXi after: vf stats -v 2
+   NICName: vmnic4
+   Rx Broadcast Bytes: 0
+   Rx Broadcast Pkts: 0
+   Rx Errordrops: 0
+   Rx LROBytes: 0
+   Rx LROPkts: 0
+   Rx Multicast Bytes: 0
+   Rx Multicast Pkts: 102
+   Rx Outof Bufferdrops: 0
+   Rx Unicast Bytes: 24001501651
+   Rx Unicast Pkt: 15853182
+   Tx Broadcast Bytes: 0
+   Tx Broadcast Pkts: 0
+   Tx Discards: 0
+   Tx Errors: 0
+   Tx Multicast Bytes: 0
+   Tx Multicast Pkts: 0
+   Tx TSOBytes: 0
+   Tx TSOPkts: 0
+   Tx Unicast Bytes: 29913536
+   Tx Unicast Pkt: 452937
+   VFID: 2
+
+
+##### ESXi after: vf stats -v 3
+   NICName: vmnic4
+   Rx Broadcast Bytes: 0
+   Rx Broadcast Pkts: 0
+   Rx Errordrops: 0
+   Rx LROBytes: 0
+   Rx LROPkts: 0
+   Rx Multicast Bytes: 0
+   Rx Multicast Pkts: 103
+   Rx Outof Bufferdrops: 0
+   Rx Unicast Bytes: 29945698
+   Rx Unicast Pkt: 453041
+   Tx Broadcast Bytes: 0
+   Tx Broadcast Pkts: 0
+   Tx Discards: 0
+   Tx Errors: 0
+   Tx Multicast Bytes: 0
+   Tx Multicast Pkts: 0
+   Tx TSOBytes: 0
+   Tx TSOPkts: 0
+   Tx Unicast Bytes: 24001472568
+   Tx Unicast Pkt: 15853088
+   VFID: 3
+
+
+##### vsmd during 2nd TCP test: show vsm load
+vsh connect vsmd -c 'show vsm load'
+Connection closed by foreign host.
+Trying ::1...
+Trying 127.0.0.1...
+Connected to localhost.
+Escape character is '^]'.
+
+
+     __      _______  _____ _	_
+     \ \    / / ____|/ ____| \ | |
+      \ \  / / |    | (___ |  \| |
+       \ \/ /| |     \___ \| . ` |
+	\  / | |____ ____) | |\  |
+	 \/   \_____|_____/|_| \_|
+
+
+
+vsm-vcsn0> show vsm load
+
+Load info of 1995ms (sampled 253ms ago):
+
+    WT EWMA avg sampled over 1ms interval
+
+		Svc   Svc   CPU
+Thread	  PID	Load  EWMA  Load
+------	------	----  ----  ----
+WT-0	  4093	 20    16   100
+WT-1	  4094	  8	8    98
+WT-2	  4095	 16    16   100
+WT-3	  4096	 20    18   100
+WT-4	  4097	 22    20   100
+WT-Avg	------	 17   ---    99
+PT-0	  4098	 30   ---   100
+PT-1	  4099	 47   ---   100
+PT-Avg	------	 38   ---   100
+Avg	------	 23   ---    99
+Ctrl	------	---   ---    11
+
+WT CPU color bitmaps based on EWMA of svc load:
+    Green:  0x1f [ 0 1 2 3 4 ]
+    Yellow: 0x0 [ ]
+    Orange: 0x0 [ ]
+    Red:    0x0 [ ]
+
+ EWMA of helper thread task processing latency(Lvl-0 low, Lvl-5 high)
+Load Lvl-0: 0x0 [ ]
+Load Lvl-1: 0x0 [ ]
+Load Lvl-2: 0x0 [ ]
+Load Lvl-3: 0x3f [ 0 1 2 3 4 5 ]
+Load Lvl-4: 0x0 [ ]
+Load Lvl-5: 0x0 [ ]
+
+vsm-vcsn0> quit
+[admin@BRANCH-1: ~] $ 
+
+##### vsmd during 2nd TCP test: show vsm statistics port mac dpdk-raw
+vsh connect vsmd -c 'show vsm statistics port mac dpdk-raw'
+Connection closed by foreign host.
+Trying ::1...
+Trying 127.0.0.1...
+Connected to localhost.
+Escape character is '^]'.
+
+
+     __      _______  _____ _	_
+     \ \    / / ____|/ ____| \ | |
+      \ \  / / |    | (___ |  \| |
+       \ \/ /| |     \___ \| . ` |
+	\  / | |____ ____) | |\  |
+	 \/   \_____|_____/|_| \_|
+
+
+
+vsm-vcsn0> show vsm statistics port mac dpdk-raw
+DPDK Stats for port : 0 [vni-0/2]
+						   rx_good_packets : 28319517
+						   tx_good_packets : 812937
+						     rx_good_bytes : 42875433071
+						     tx_good_bytes : 53673747
+					      rx_multicast_packets : 132
+DPDK Stats for port : 1 [vni-0/0]
+						   rx_good_packets : 813091
+						   tx_good_packets : 28318292
+						     rx_good_bytes : 53717301
+						     tx_good_bytes : 42873724670
+					      rx_multicast_packets : 133
+DPDK Stats for port : 2 [vni-0/1]
+						   rx_good_packets : 258
+						   tx_good_packets : 20
+						     rx_good_bytes : 28479
+						     tx_good_bytes : 4622
+						     rx_q0_packets : 258
+						       rx_q0_bytes : 28479
+						     tx_q0_packets : 20
+						       tx_q0_bytes : 4622
+DPDK Stats for port : 3 [spt-0/0]
+						   tx_good_packets : 2
+						     tx_q0_packets : 2
+DPDK Stats for port : 4 [fex-0/0]
+						   tx_good_packets : 2
+						     tx_q0_packets : 2
+
+vsm-vcsn0> quit
+[admin@BRANCH-1: ~] $ 
+
+##### vsmd during 2nd TCP test: show vsm statistics dropped all
+vsh connect vsmd -c 'show vsm statistics dropped all'
+Connection closed by foreign host.
+Trying ::1...
+Trying 127.0.0.1...
+Connected to localhost.
+Escape character is '^]'.
+
+
+     __      _______  _____ _	_
+     \ \    / / ____|/ ____| \ | |
+      \ \  / / |    | (___ |  \| |
+       \ \/ /| |     \___ \| . ` |
+	\  / | |____ ____) | |\  |
+	 \/   \_____|_____/|_| \_|
+
+
+
+vsm-vcsn0> show vsm statistics dropped all
+
+DPDK ERROR STATISTICS
+~~~~~~~~~~~~~~~~~~~~~
+
+
+DATAPATH ERROR STATISTICS
+~~~~~~~~~~~~~~~~~~~~~~~~~
+# Packets FDT Action Error		   : 3
+
+
+THRM ERROR STATISTICS
+~~~~~~~~~~~~~~~~~~~~~~
+
+
+NFP ERROR STATISTICS
+~~~~~~~~~~~~~~~~~~~~
+# Sess Create Denied (mbuf sanity fail) 	     : 8
+# Sanity failure (Dst Mcast IPaddr)		     : 8
+# Dropped (Broadcast Route)			     : 2
+
+
+VSF ERROR STATISTICS
+~~~~~~~~~~~~~~~~~~~~
+# Number of calls to icmp_error 	   : 82
+
+
+VUNET ERROR STATISTICS
+~~~~~~~~~~~~~~~~~~~~~~
+# VN_MOD_IP_ERR_NO_ROUTE_CNT		   : 82
+# VN_MOD_ETH_ERR_INTF_DOWN_CNT		   : 4
+# VN_MOD_ETH_ERR_BAD_TYPE_CNT		   : 22
+
+
+COS DROPS
+~~~~~~~~~~~~~
+# Shaper drops				   : 0
+
+vsm-vcsn0>
+
+vsm-vcsn0> quit
+[admin@BRANCH-1: ~] $ 
+
+##### client VM, 2nd test: iperf
+[SUM]   0.00-20.00  sec  21.9 GBytes  9.40 Gbits/sec  3870             sender
+[SUM]   0.00-20.00  sec  21.9 GBytes  9.39 Gbits/sec                  receiver
+
+iperf Done.
+
+
+##### IDLE cross-check VOS dpdk-raw
+vsh connect vsmd -c 'show vsm statistics port mac dpdk-raw'
+Connection closed by foreign host.
+Trying ::1...
+Trying 127.0.0.1...
+Connected to localhost.
+Escape character is '^]'.
+
+
+     __      _______  _____ _	_
+     \ \    / / ____|/ ____| \ | |
+      \ \  / / |    | (___ |  \| |
+       \ \/ /| |     \___ \| . ` |
+	\  / | |____ ____) | |\  |
+	 \/   \_____|_____/|_| \_|
+
+
+
+vsm-vcsn0> show vsm statistics port mac dpdk-raw
+DPDK Stats for port : 0 [vni-0/2]
+						   rx_good_packets : 32076129
+						   tx_good_packets : 919409
+						     rx_good_bytes : 48562888216
+						     tx_good_bytes : 60726626
+					      rx_multicast_packets : 163
+DPDK Stats for port : 1 [vni-0/0]
+						   rx_good_packets : 919576
+						   tx_good_packets : 32075977
+						     rx_good_bytes : 60779632
+						     tx_good_bytes : 48562839966
+					      rx_multicast_packets : 164
+DPDK Stats for port : 2 [vni-0/1]
+						   rx_good_packets : 334
+						   tx_good_packets : 23
+						     rx_good_bytes : 37896
+						     tx_good_bytes : 5228
+						     rx_q0_packets : 334
+						       rx_q0_bytes : 37896
+						     tx_q0_packets : 23
+						       tx_q0_bytes : 5228
+DPDK Stats for port : 3 [spt-0/0]
+						   tx_good_packets : 2
+						     tx_q0_packets : 2
+DPDK Stats for port : 4 [fex-0/0]
+						   tx_good_packets : 2
+						     tx_q0_packets : 2
+
+vsm-vcsn0>
+
+vsm-vcsn0> quit
+[admin@BRANCH-1: ~] $ 
+##### IDLE ESXi VF2
+   NICName: vmnic4
+   Rx Broadcast Bytes: 0
+   Rx Broadcast Pkts: 0
+   Rx Errordrops: 0
+   Rx LROBytes: 0
+   Rx LROPkts: 0
+   Rx Multicast Bytes: 0
+   Rx Multicast Pkts: 165
+   Rx Outof Bufferdrops: 0
+   Rx Unicast Bytes: 48562888456
+   Rx Unicast Pkt: 32076132
+   Tx Broadcast Bytes: 0
+   Tx Broadcast Pkts: 0
+   Tx Discards: 0
+   Tx Errors: 0
+   Tx Multicast Bytes: 0
+   Tx Multicast Pkts: 0
+   Tx TSOBytes: 0
+   Tx TSOPkts: 0
+   Tx Unicast Bytes: 60726626
+   Tx Unicast Pkt: 919409
+   VFID: 2
+
+##### IDLE ESXi VF3
+   NICName: vmnic4
+   Rx Broadcast Bytes: 0
+   Rx Broadcast Pkts: 0
+   Rx Errordrops: 0
+   Rx LROBytes: 0
+   Rx LROPkts: 0
+   Rx Multicast Bytes: 0
+   Rx Multicast Pkts: 166
+   Rx Outof Bufferdrops: 0
+   Rx Unicast Bytes: 60779872
+   Rx Unicast Pkt: 919579
+   Tx Broadcast Bytes: 0
+   Tx Broadcast Pkts: 0
+   Tx Discards: 0
+   Tx Errors: 0
+   Tx Multicast Bytes: 0
+   Tx Multicast Pkts: 0
+   Tx TSOBytes: 0
+   Tx TSOPkts: 0
+   Tx Unicast Bytes: 48562839966
+   Tx Unicast Pkt: 32075977
+   VFID: 3

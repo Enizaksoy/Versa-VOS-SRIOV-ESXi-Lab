@@ -1,0 +1,85 @@
+##### esxcli network sriovnic list
+Name    PCI Device    Driver      Link  Speed  Duplex  MAC Address         MTU  Description
+------  ------------  ----------  ----  -----  ------  -----------------  ----  -----------
+vmnic3  0000:3b:00.0  ixgben      Up    10000  Full    aa:bb:cc:00:00:03  1500  Intel(R) Ethernet Controller X540-AT2
+vmnic4  0000:3b:00.1  ixgben      Up    10000  Full    aa:bb:cc:00:00:04  9000  Intel(R) Ethernet Controller X540-AT2
+vmnic5  0000:86:00.0  nmlx5_core  Up    10000  Full    aa:bb:cc:00:00:05  1500  Mellanox Technologies MT27710 Family [ConnectX-4 Lx]
+vmnic6  0000:86:00.1  nmlx5_core  Up    10000  Full    aa:bb:cc:00:00:06  9000  Mellanox Technologies MT27710 Family [ConnectX-4 Lx]
+
+##### esxcli system module parameters list -m ixgben
+Name     Type          Value  Description
+-------  ------------  -----  -----------
+DRSS     array of int         Number of RSS queues: 0 (default) = disable, 1 = enable 4 default RSS queues
+DevRSS   array of int         Number of Device RSS queues: 0 = disable, 1 = enable 16 queues and disable all virtualization features (default = 0)
+QPair    array of int         Pair Rx & Tx Queue Interrupt: 0 = disable, 1 = enable (default)
+RSS      array of int         Number of RSS queues: 0 (default) = disable, 1 = enable 4 RSS queues
+RxITR    array of int         Default RX interrupt interval: 0 = disable, 1 = dynamic throttling, 2-1000 in microseconds (default = 50)
+TxITR    array of int         Default TX interrupt interval: 0 = disable, 1 = dynamic throttling, 2-1000 in microseconds (default = 100)
+VMDQ     array of int         Number of Virtual Machine Device Queues: 0/1 = disable, 2-16 enable (default = 8)
+max_vfs  array of int  64     Maximum number of VFs to be enabled (0..63)
+
+##### esxcli network sriovnic vf list -n vmnic4
+VF ID  Active  PCI Address     Owner World ID
+-----  ------  --------------  --------------
+    0   false  00000:059:16.1   -
+    1   false  00000:059:16.3   -
+    2   false  00000:059:16.5   -
+    3   false  00000:059:16.7   -
+    4   false  00000:059:17.1   -
+    5   false  00000:059:17.3   -
+    6   false  00000:059:17.5   -
+    7   false  00000:059:17.7   -
+    8   false  00000:059:18.1   -
+    9   false  00000:059:18.3   -
+   10   false  00000:059:18.5   -
+   11   false  00000:059:18.7   -
+   12   false  00000:059:19.1   -
+   13   false  00000:059:19.3   -
+   14   false  00000:059:19.5   -
+   15   false  00000:059:19.7   -
+   16   false  00000:059:20.1   -
+   17   false  00000:059:20.3   -
+   18   false  00000:059:20.5   -
+   19   false  00000:059:20.7   -
+   20   false  00000:059:21.1   -
+   21   false  00000:059:21.3   -
+   22   false  00000:059:21.5   -
+   23   false  00000:059:21.7   -
+   24   false  00000:059:22.1   -
+   25   false  00000:059:22.3   -
+   26   false  00000:059:22.5   -
+   27   false  00000:059:22.7   -
+   28   false  00000:059:23.1   -
+   29   false  00000:059:23.3   -
+   30   false  00000:059:23.5   -
+   31   false  00000:059:23.7   -
+   32   false  00000:059:24.1   -
+   33   false  00000:059:24.3   -
+   34   false  00000:059:24.5   -
+   35   false  00000:059:24.7   -
+   36   false  00000:059:25.1   -
+   37   false  00000:059:25.3   -
+   38   false  00000:059:25.5   -
+   39   false  00000:059:25.7   -
+   40   false  00000:059:26.1   -
+   41   false  00000:059:26.3   -
+   42   false  00000:059:26.5   -
+   43   false  00000:059:26.7   -
+   44   false  00000:059:27.1   -
+   45   false  00000:059:27.3   -
+   46   false  00000:059:27.5   -
+   47   false  00000:059:27.7   -
+   48   false  00000:059:28.1   -
+   49   false  00000:059:28.3   -
+   50   false  00000:059:28.5   -
+   51   false  00000:059:28.7   -
+   52   false  00000:059:29.1   -
+   53   false  00000:059:29.3   -
+   54   false  00000:059:29.5   -
+   55   false  00000:059:29.7   -
+   56   false  00000:059:30.1   -
+   57   false  00000:059:30.3   -
+   58   false  00000:059:30.5   -
+   59   false  00000:059:30.7   -
+   60   false  00000:059:31.1   -
+
