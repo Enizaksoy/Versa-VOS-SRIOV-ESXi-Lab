@@ -1,6 +1,6 @@
-# Versa VOS SR-IOV on VMware ESXi: lab data
+# Enabling SR-IOV for Versa VOS on VMware vSphere (vCenter and ESXi)
 
-Companion data for the article **[Past the vSwitch: Enabling SR-IOV for Versa VOS on VMware vSphere](https://enizaksoy.github.io/articles/versa-vos-sriov-esxi.html)**.
+Companion data for the article **[Enabling SR-IOV for Versa VOS on VMware vSphere (vCenter and ESXi)](https://enizaksoy.github.io/articles/versa-vos-sriov-esxi.html)**.
 The article has the step-by-step setup (host VFs, the VM passthrough adapter, verification inside VOS and on ESXi), the gotchas and the charts. This repo has the result tables and the full command outputs behind it.
 
 > **Lab results only.** Every number here comes from one lab setup built by the author: one ESXi host, one VOS VM, one 20-second run per test (n=1).
